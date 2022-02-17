@@ -3,22 +3,33 @@
 #   by the user
 
 import requests
+from bs4 import BeautifulSoup
 
 class Link:
-    def __init__(self, url):
+    def __init__(self, url, title, pref=0):
         self.url = url
+        self.title = title
+        self.pref = pref
 
     def getUrl(self):
         return self.url
 
+    def getTitle(self):
+        return self.title
+
     def setUrl(self, newUrl):
         if newUrl == self.url:
-            return("New URL matches old URL")
+            return False
         else:
             try: 
                 response = requests.get(newUrl) # returns true if the url is okay
             except:
-                return("Error setting URL. Check that you input the correct URL")
+                print("Error setting URL. Check that you input the correct URL")
             else:
                 self.url = newUrl
-                return("URL Set as", self.url)
+                print("URL Set as", self.url)
+                return self.url
+
+    def getContent(self):
+        request = requests.get(self.url)
+        print(request)
